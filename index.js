@@ -2,7 +2,7 @@ import express from "express";
 
 const app = express();
 
-app.get("/", async (req, res) => {
+app.get("/headers", async (req, res) => {
   try {
     const r = await fetch(
       "https://blinkit.com/prn/x/prid/716896",
@@ -16,6 +16,19 @@ app.get("/", async (req, res) => {
         }
       }
     );
+
+    res.json({
+      status: r.status,
+      server: r.headers.get("server"),
+      cfRay: r.headers.get("cf-ray"),
+      setCookie: r.headers.get("set-cookie"),
+      location: r.headers.get("location")
+    });
+
+  } catch (e) {
+    res.json({ error: e.message });
+  }
+});
 
     const html = await r.text();
 
