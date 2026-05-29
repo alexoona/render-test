@@ -21,6 +21,7 @@ app.get("/", async (req, res) => {
 
     res.json({
       status: r.status,
+      finalUrl: r.url,
       title: html.match(/<title>(.*?)<\/title>/i)?.[1] || "NO TITLE",
       length: html.length,
       preview: html.slice(0, 2000)
@@ -28,7 +29,14 @@ app.get("/", async (req, res) => {
 
   } catch (e) {
     res.json({
-      error: e.message
+      error: e.message,
+      stack: e.stack
     });
   }
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
